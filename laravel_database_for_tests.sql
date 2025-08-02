@@ -15,11 +15,11 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- A despejar estrutura da base de dados para laravel_database_for_tests
+-- A despejar estrutura da base de dados para eormdb
 CREATE DATABASE IF NOT EXISTS `eormdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `eormdb`;
 
--- A despejar estrutura para tabela laravel_database_for_tests.clients
+-- A despejar estrutura para tabela eormdb.clients
 CREATE TABLE IF NOT EXISTS `clients` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `client_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `clients` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=501 DEFAULT CHARSET=latin1;
 
--- A despejar dados para tabela laravel_database_for_tests.clients: ~500 rows (aproximadamente)
+-- A despejar dados para tabela eormdb.clients: ~500 rows (aproximadamente)
 DELETE FROM `clients`;
 INSERT INTO `clients` (`id`, `client_name`, `email`, `active`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, 'Laura Teresa Nunes', 'laura.7049.nunes@yandex.com', b'1', '2032-01-22 13:40:09', '2032-01-22 13:40:09', NULL),
@@ -535,7 +535,7 @@ INSERT INTO `clients` (`id`, `client_name`, `email`, `active`, `created_at`, `up
 	(499, 'Ines Leonor Ferreira', 'ines.4785.ferreira@outlook.com', b'1', '2032-10-03 19:55:40', '2032-10-03 19:55:40', NULL),
 	(500, 'Olivia Mariana Correia', 'olivia.9236.correia@gmail.com', b'1', '2032-10-04 03:45:37', '2032-10-04 03:45:37', NULL);
 
--- A despejar estrutura para tabela laravel_database_for_tests.orders
+-- A despejar estrutura para tabela eormdb.orders
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `order_number` int DEFAULT NULL,
@@ -548,7 +548,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10002 DEFAULT CHARSET=latin1;
 
--- A despejar dados para tabela laravel_database_for_tests.orders: ~9 952 rows (aproximadamente)
+-- A despejar dados para tabela eormdb.orders: ~9 952 rows (aproximadamente)
 DELETE FROM `orders`;
 INSERT INTO `orders` (`id`, `order_number`, `client_id`, `product_id`, `quantity`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, 1, 30, 28, 4, '2032-10-19 15:01:48', '2032-10-19 15:01:48', NULL),
@@ -10554,7 +10554,7 @@ INSERT INTO `orders` (`id`, `order_number`, `client_id`, `product_id`, `quantity
 INSERT INTO `orders` (`id`, `order_number`, `client_id`, `product_id`, `quantity`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(10001, 2815, 231, 17, 14, '2048-01-23 17:27:50', '2048-01-23 17:27:50', NULL);
 
--- A despejar estrutura para tabela laravel_database_for_tests.phones
+-- A despejar estrutura para tabela eormdb.phones
 CREATE TABLE IF NOT EXISTS `phones` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `client_id` int unsigned DEFAULT NULL,
@@ -10565,7 +10565,7 @@ CREATE TABLE IF NOT EXISTS `phones` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=986 DEFAULT CHARSET=latin1;
 
--- A despejar dados para tabela laravel_database_for_tests.phones: ~0 rows (aproximadamente)
+-- A despejar dados para tabela eormdb.phones: ~0 rows (aproximadamente)
 DELETE FROM `phones`;
 INSERT INTO `phones` (`id`, `client_id`, `phone_number`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, 1, '294226684', '2032-10-04 21:40:58', '2032-10-04 21:40:58', NULL),
@@ -11552,7 +11552,7 @@ INSERT INTO `phones` (`id`, `client_id`, `phone_number`, `created_at`, `updated_
 	(982, 499, '640526539', '2032-10-07 20:25:44', '2032-10-07 20:25:44', NULL),
 	(983, 500, '257964454', '2032-10-07 20:35:56', '2032-10-07 20:35:56', NULL);
 
--- A despejar estrutura para tabela laravel_database_for_tests.products
+-- A despejar estrutura para tabela eormdb.products
 CREATE TABLE IF NOT EXISTS `products` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `product_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -11563,7 +11563,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
--- A despejar dados para tabela laravel_database_for_tests.products: ~30 rows (aproximadamente)
+-- A despejar dados para tabela eormdb.products: ~30 rows (aproximadamente)
 DELETE FROM `products`;
 INSERT INTO `products` (`id`, `product_name`, `price`, `created_at`, `updated_at`, `deleted_at`) VALUES
 	(1, 'Maca', 51.16, '2032-10-17 20:40:08', '2032-10-17 20:40:08', NULL),
