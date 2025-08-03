@@ -113,20 +113,39 @@ class MainController extends Controller
         // ]);
 
         // com insert, não é inserido o created at e updated at
-        Product::insert([
-            [
-            'product_name' => 'Produto 5',
-            'price' => 56,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-            ],
-            [
-            'product_name' => 'Produto 6',
-            'price' => 99,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-            ]
-        ]);
+        // Product::insert([
+        //     [
+        //     'product_name' => 'Produto 5',
+        //     'price' => 56,
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now(),
+        //     ],
+        //     [
+        //     'product_name' => 'Produto 6',
+        //     'price' => 99,
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now(),
+        //     ]
+        // ]);
+
+        // Update
+        // SELECT * FROM products WHERE id = 10
+        // $product = Product::find(10);
+        // $product->product_name = 'Produto Alterado!';
+        // $product->price = 10;
+        // $product->save();
+
+        // alterar o preço de todos os produtos :)
+        // Product::where('id', '<=', 10)
+        // ->update([
+        //     'price' => 999
+        // ]);
+
+        // atualizar se existir, se não, cria
+        Product::updateOrCreate(
+            ['product_name' => 'xarope'],
+            ['price' => 25]
+        );
     }
 
     private function showData($data){
