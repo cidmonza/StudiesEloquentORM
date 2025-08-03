@@ -36,7 +36,36 @@ class MainController extends Controller
         //$results = Product::limit(3)->get()->toArray();
 
         // Buscar produto pelo id
-        $results = Product::find(10)->toArray();
+        //$results = Product::find(10)->toArray();
+
+        // Buscar com clausura where
+        //$results = Product::where('price', '>=', 70)
+        //                     ->get()
+        //                     ->toArray();
+
+        // Buscar apenas o primeiro resultado
+        //$results = Product::where('price', '>=', 70)
+        //             ->first()
+        //             ->toArray();
+
+        // Buscar apenas o primeiro elemento se ele existir, caso contrário, retorna array vazio
+        //$results = Product::where('price', '>=', '170')
+        //                     ->firstOr(function(){return [];});
+
+        // Forma Laravel Style de fazer o query de cima:
+        //$results = Product::where('price', '>=', 170)->firstOrNew();
+
+        $product = Product::find(10);
+        echo $product->price; // valor do db
+        echo '<br>';
+
+        $product->price = 200; // define preço no código, não no db
+        echo $product->price;
+        echo '<br>';
+
+        $product->refresh(); // volta a recuperar o preço original que está no db
+        echo $product->price;
+        echo '<br>';
 
         $this->showData($results);
 
