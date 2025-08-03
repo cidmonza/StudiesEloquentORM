@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\TesteModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -82,21 +83,50 @@ class MainController extends Controller
 
         // formas de buscar agregados
         // laravel.com/docs/12.x/eloquent
-        $total_products = Product::count();
-        $product_max_price = Product::max('price');
-        $product_min_price = Product::min('price');
-        $product_avg_price = Product::avg('price');
-        $product_sum_price = Product::sum('price');
+        // $total_products = Product::count();
+        // $product_max_price = Product::max('price');
+        // $product_min_price = Product::min('price');
+        // $product_avg_price = Product::avg('price');
+        // $product_sum_price = Product::sum('price');
 
-        $results = [
-            'total_products' => $total_products,
-            'product_max_price' => $product_max_price,
-            'product_min_price' => $product_min_price,
-            'product_avg_price' => $product_avg_price,
-            'product_sum_price' => $product_sum_price
-        ];
+        // $results = [
+        //     'total_products' => $total_products,
+        //     'product_max_price' => $product_max_price,
+        //     'product_min_price' => $product_min_price,
+        //     'product_avg_price' => $product_avg_price,
+        //     'product_sum_price' => $product_sum_price
+        // ];
 
-        $this->showData($results);
+        // $this->showData($results);
+
+        // INSERT INTO products(product_name, price) VALUES ('Novo Produto', 50);
+        // Inserir novo produto na tabela products
+        // $new_product = new Product();
+        // $new_product->product_name = 'Novo Produto';
+        // $new_product->price = 50;
+        // $new_product->save();
+
+        // precisa ter como propriedade no model o "fillabe"
+        // Product::create([
+        //     'product_name' => 'Produto 2',
+        //     'price' => 55
+        // ]);
+
+        // com insert, não é inserido o created at e updated at
+        Product::insert([
+            [
+            'product_name' => 'Produto 5',
+            'price' => 56,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+            ],
+            [
+            'product_name' => 'Produto 6',
+            'price' => 99,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+            ]
+        ]);
     }
 
     private function showData($data){
