@@ -11,7 +11,7 @@ class MainController extends Controller
     public function index()
     {
         // Buscar todos os dados dos produtos
-        $results = Product::all(); // SELECT * FROM products
+        //$results = Product::all(); // SELECT * FROM products
 
         // foreach($results as $product){
         //     echo "<br>";
@@ -55,20 +55,48 @@ class MainController extends Controller
         // Forma Laravel Style de fazer o query de cima:
         //$results = Product::where('price', '>=', 170)->firstOrNew();
 
-        $product = Product::find(10);
-        echo $product->price; // valor do db
-        echo '<br>';
+        // $product = Product::find(10);
+        // echo $product->price; // valor do db
+        // echo '<br>';
 
-        $product->price = 200; // define preço no código, não no db
-        echo $product->price;
-        echo '<br>';
+        // $product->price = 200; // define preço no código, não no db
+        // echo $product->price;
+        // echo '<br>';
 
-        $product->refresh(); // volta a recuperar o preço original que está no db
-        echo $product->price;
-        echo '<br>';
+        // $product->refresh(); // volta a recuperar o preço original que está no db
+        // echo $product->price;
+        // echo '<br>';
+
+        // $this->showData($results);
+
+        // $product = Product::firstWhere('price', '>=', 90);
+        // echo $product->product_name . ' tem um preço de ' . $product->price . ' R$ <br>';
+
+        // $product = Product::findOr(100, function(){
+        //     echo 'Não foi encontrado o produto desejado';
+        // });
+
+        // procura, se não tiver, falha, 404
+        // $product = Product::findOrFail(200);
+        // echo $product->product_name . ' tem um preço de ' . $product->price . ' R$ <br>';
+
+        // formas de buscar agregados
+        // laravel.com/docs/12.x/eloquent
+        $total_products = Product::count();
+        $product_max_price = Product::max('price');
+        $product_min_price = Product::min('price');
+        $product_avg_price = Product::avg('price');
+        $product_sum_price = Product::sum('price');
+
+        $results = [
+            'total_products' => $total_products,
+            'product_max_price' => $product_max_price,
+            'product_min_price' => $product_min_price,
+            'product_avg_price' => $product_avg_price,
+            'product_sum_price' => $product_sum_price
+        ];
 
         $this->showData($results);
-
     }
 
     private function showData($data){
