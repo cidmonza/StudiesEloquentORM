@@ -11,8 +11,8 @@ class MainController extends Controller
         echo 'Eloquent Relationship';
     }
 
-    public function oneToOne(){
-
+    public function oneToOne()
+    {
         $phone1 = Client::find(12)->phone;
 
         echo 'ID Cliente: ' . $phone1->client_id .
@@ -72,21 +72,5 @@ class MainController extends Controller
         $timeEager = $endEager - $startEager;
 
         echo "⏱️ Eager loading levou: " . number_format($timeEager, 6) . " segundos<br><hr>";
-
-
-
-    }
-
-    private function showData($data){
-        echo '<pre>',
-        print_r($data);
-    }
-
-    private function arrayOfObject($data){
-        $tmp = [];
-        foreach($data as $key => $value){
-            $tmp[] = (object) $value;
-        }
-        return $tmp;
     }
 }
