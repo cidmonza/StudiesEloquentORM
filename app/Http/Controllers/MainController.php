@@ -142,10 +142,34 @@ class MainController extends Controller
         // ]);
 
         // atualizar se existir, se não, cria
-        Product::updateOrCreate(
-            ['product_name' => 'xarope'],
-            ['price' => 25]
-        );
+        // Product::updateOrCreate(
+        //     ['product_name' => 'xarope'],
+        //     ['price' => 25]
+        // );
+
+        // Hard delete e Soft delete (colocar use SoftDeletes; no model)
+
+        // $product = Product::find(10);
+        // $product->delete();
+
+        // // Deleta tudo da tabela products
+        // Product::truncate();
+
+        // Product::destroy(1,2,3);
+        // Product::destroy([1,2,3]);
+
+        // Product::where('price', '>=', 50)->delte();
+
+        // Soft deletes (use SoftDeletes; foi adicionado ao model Product)
+
+        $product = Product::find(25);
+        $product->delete(); // adiciona data me deleted_at
+
+        // recuperar produto
+
+        $product = Product::withTrashed()->find(25);
+        $product->restore();
+
     }
 
     private function showData($data){
