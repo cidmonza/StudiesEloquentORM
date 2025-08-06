@@ -2,173 +2,78 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\TesteModel;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Models\Client;
 
 class MainController extends Controller
 {
     public function index()
     {
-        // Buscar todos os dados dos produtos
-        //$results = Product::all(); // SELECT * FROM products
+        echo 'Eloquent Relationship';
+    }
 
-        // foreach($results as $product){
-        //     echo "<br>";
-        //     echo $product->product_name;
-        // }
+    public function oneToOne(){
 
-        // echo $results[0]->product_name;
+        $phone1 = Client::find(12)->phone;
 
-        // Buscar todos os dados como um array associativo
-        //$results = Product::all()->toArray();
+        echo 'ID Cliente: ' . $phone1->client_id .
+            ' | ID Phone: ' . $phone1->id .
+            ' | Número: ' . $phone1->phone_number;
 
-        // retornar os resultados como um array de objetos stdClass
-        //$results = $this->arrayOfObject(Product::all()->toArray());
+        echo '<hr>';
 
-        // Buscar produtos ordenados pelo nome alfabeticamente
+        // Lazy loading
+        $client1 = Client::find(13); // primeira consulta
+        $phone2 = $client1->phone->phone_number; // segunda consulta
 
-        // $results = Product::orderBy('product_name')
-        //                     ->get()
-        //                     ->toArray();
+        echo 'ID Cliente: ' . $client1->id .
+            ' | Nome: ' . $client1->client_name .
+            ' | ID Phone: ' . $client1->phone->id . // terceira consulta
+            ' | Número: ' . $phone2;
 
-        // Buscar os 3 primeiros produtos
-        //$results = Product::limit(3)->get()->toArray();
+        echo '<hr>';
 
-        // Buscar produto pelo id
-        //$results = Product::find(10)->toArray();
+        // Eager loading
+        $client2 = Client::with('phone')->find(10); // primeira consulta
 
-        // Buscar com clausura where
-        //$results = Product::where('price', '>=', 70)
-        //                     ->get()
-        //                     ->toArray();
+        echo 'ID Cliente: ' . $client2->id .
+            ' | Nome: ' . $client2->client_name .
+            ' | ID Phone: ' . $client2->phone->id .
+            ' | Número: ' . $client2->phone->phone_number;
 
-        // Buscar apenas o primeiro resultado
-        //$results = Product::where('price', '>=', 70)
-        //             ->first()
-        //             ->toArray();
+        echo '<hr>';
 
-        // Buscar apenas o primeiro elemento se ele existir, caso contrário, retorna array vazio
-        //$results = Product::where('price', '>=', '170')
-        //                     ->firstOr(function(){return [];});
+        // Exemplo do porquê o eager loading é mais interessante:
+        // Versão sem eager loading
+        $startLazy = microtime(true);
+        $clients = Client::all(); // sem eager loading
 
-        // Forma Laravel Style de fazer o query de cima:
-        //$results = Product::where('price', '>=', 170)->firstOrNew();
+        echo 'For each client print phone number:<br><br>';
 
-        // $product = Product::find(10);
-        // echo $product->price; // valor do db
-        // echo '<br>';
+        foreach ($clients as $client) {
+            echo $client->phone->phone_number; // cada um faz uma nova consulta...sim, ao invés de cada client já ter um join da tabela phone congruente, ele faz individualmente uma consulta no banco de dados para cada cliente do array de clientes
+        }
 
-        // $product->price = 200; // define preço no código, não no db
-        // echo $product->price;
-        // echo '<br>';
+        $endLazy = microtime(true);
+        $timeLazy = $endLazy - $startLazy;
 
-        // $product->refresh(); // volta a recuperar o preço original que está no db
-        // echo $product->price;
-        // echo '<br>';
+        echo "⏱️ Lazy loading levou: " . number_format($timeLazy, 6) . " segundos<br><hr>";
 
-        // $this->showData($results);
+        // Versão com eager loading
+        $startEager = microtime(true);
+        $clients2 = Client::with('phone')->get(); // Com eager loading... duas consultas apenas
 
-        // $product = Product::firstWhere('price', '>=', 90);
-        // echo $product->product_name . ' tem um preço de ' . $product->price . ' R$ <br>';
+        echo 'For each client print phone number:<br><br>';
 
-        // $product = Product::findOr(100, function(){
-        //     echo 'Não foi encontrado o produto desejado';
-        // });
+        foreach ($clients2 as $client) {
+            echo $client->phone->phone_number; // sem consultas extras
+        }
 
-        // procura, se não tiver, falha, 404
-        // $product = Product::findOrFail(200);
-        // echo $product->product_name . ' tem um preço de ' . $product->price . ' R$ <br>';
+        $endEager = microtime(true);
+        $timeEager = $endEager - $startEager;
 
-        // formas de buscar agregados
-        // laravel.com/docs/12.x/eloquent
-        // $total_products = Product::count();
-        // $product_max_price = Product::max('price');
-        // $product_min_price = Product::min('price');
-        // $product_avg_price = Product::avg('price');
-        // $product_sum_price = Product::sum('price');
+        echo "⏱️ Eager loading levou: " . number_format($timeEager, 6) . " segundos<br><hr>";
 
-        // $results = [
-        //     'total_products' => $total_products,
-        //     'product_max_price' => $product_max_price,
-        //     'product_min_price' => $product_min_price,
-        //     'product_avg_price' => $product_avg_price,
-        //     'product_sum_price' => $product_sum_price
-        // ];
 
-        // $this->showData($results);
-
-        // INSERT INTO products(product_name, price) VALUES ('Novo Produto', 50);
-        // Inserir novo produto na tabela products
-        // $new_product = new Product();
-        // $new_product->product_name = 'Novo Produto';
-        // $new_product->price = 50;
-        // $new_product->save();
-
-        // precisa ter como propriedade no model o "fillabe"
-        // Product::create([
-        //     'product_name' => 'Produto 2',
-        //     'price' => 55
-        // ]);
-
-        // com insert, não é inserido o created at e updated at
-        // Product::insert([
-        //     [
-        //     'product_name' => 'Produto 5',
-        //     'price' => 56,
-        //     'created_at' => Carbon::now(),
-        //     'updated_at' => Carbon::now(),
-        //     ],
-        //     [
-        //     'product_name' => 'Produto 6',
-        //     'price' => 99,
-        //     'created_at' => Carbon::now(),
-        //     'updated_at' => Carbon::now(),
-        //     ]
-        // ]);
-
-        // Update
-        // SELECT * FROM products WHERE id = 10
-        // $product = Product::find(10);
-        // $product->product_name = 'Produto Alterado!';
-        // $product->price = 10;
-        // $product->save();
-
-        // alterar o preço de todos os produtos :)
-        // Product::where('id', '<=', 10)
-        // ->update([
-        //     'price' => 999
-        // ]);
-
-        // atualizar se existir, se não, cria
-        // Product::updateOrCreate(
-        //     ['product_name' => 'xarope'],
-        //     ['price' => 25]
-        // );
-
-        // Hard delete e Soft delete (colocar use SoftDeletes; no model)
-
-        // $product = Product::find(10);
-        // $product->delete();
-
-        // // Deleta tudo da tabela products
-        // Product::truncate();
-
-        // Product::destroy(1,2,3);
-        // Product::destroy([1,2,3]);
-
-        // Product::where('price', '>=', 50)->delte();
-
-        // Soft deletes (use SoftDeletes; foi adicionado ao model Product)
-
-        $product = Product::find(25);
-        $product->delete(); // adiciona data me deleted_at
-
-        // recuperar produto
-
-        $product = Product::withTrashed()->find(25);
-        $product->restore();
 
     }
 
