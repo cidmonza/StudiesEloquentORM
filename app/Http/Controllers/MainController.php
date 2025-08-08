@@ -73,4 +73,38 @@ class MainController extends Controller
 
         echo "⏱️ Eager loading levou: " . number_format($timeEager, 6) . " segundos<br><hr>";
     }
+
+    public function oneToMany()
+    {
+        // busca o id e o nome do cliente e todos os telefones dele
+        // $client1 = Client::find(10);
+        // $phones = $client1->phones;
+        // echo 'Cliente: ' . $client1->client_name . '<br>';
+        // echo 'Phones: <br>';
+        // foreach($phones as $index => $phone)
+        // {
+        //     echo 'Phone ' . $index + 1 . ' |' . ' ' . $phone->phone_number . ' <br>';
+        // }
+
+        // $client2 = Client::with('phones')->find(10);
+        // echo '<br>';
+        // echo 'Cliente: ' . $client2->client_name . '<br>';
+        // echo 'Phones: <br>';
+        // foreach($client2->phones as $index => $phone)
+        // {
+        //     echo 'Phone ' . $index + 1 . ' |' . ' ' . $phone->phone_number . ' <br>';
+        // }
+
+        $clients = Client::with('phones')->get();
+        foreach($clients as $index => $client)
+        {
+            echo 'Cliente número: ' . $index . ' | Nome: ' . $client->client_name . '<br>Phones: <br>';
+            foreach($client->phones as $phone)
+            {
+                echo $phone->phone_number . '<br>';
+            }
+            echo '<br>';
+        }
+
+    }
 }
