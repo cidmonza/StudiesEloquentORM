@@ -7,4 +7,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [MainController::class, 'index']);
 Route::get('/oneToOne', [MainController::class, 'oneToOne']);
 Route::get('/oneToMany', [MainController::class, 'oneToMany']);
+Route::get('/belongsTo', [MainController::class, 'belongsTo']);
 

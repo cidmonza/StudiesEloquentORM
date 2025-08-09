@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Phone;
 
 class MainController extends Controller
 {
@@ -105,6 +106,23 @@ class MainController extends Controller
             }
             echo '<br>';
         }
+    }
 
+    public function belongsTo()
+    {
+        // $phone1 = Phone::find(10);
+        // $client1 = $phone1->client;
+        // echo 'Telefone: ' . $phone1->phone_number . '<br>';
+        // echo 'Client: ' . $client1->client_name;
+
+        // $phone2 = Phone::with('client')->find(10);
+        // echo 'Telefone: ' . $phone2->phone_number . '<br>';
+        // echo 'Cliente: ' . $phone2->client->client_name;
+
+        $phones = Phone::with('client')->get();
+        foreach($phones as $index => $phone)
+        {
+            echo 'Phone: ' . $phone->phone_number . ' | do cliente: ' . $phone->client->client_name . '<br>';
+        }
     }
 }
