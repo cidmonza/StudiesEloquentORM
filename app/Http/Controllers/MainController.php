@@ -158,14 +158,50 @@ class MainController extends Controller
     public function RunningQueries()
     {
         // vamos buscar um cliente e seus telefones, mas só queremos os telefones que começam com o numero 8
-        $client1 = Client::find(1);
-        $phones = $client1->phones()->where('phone_number', 'like', '8%')->get();
+        // $client1 = Client::find(1);
+        // $phones = $client1->phones()->where('phone_number', 'like', '8%')->get();
 
-        echo 'Cliente: ' , $client1->client_name . '<br>';
-        echo 'Telefones: <br>';
-        foreach($phones as $phone)
+        // echo 'Cliente: ' . $client1->client_name . '<br>';
+        // echo 'Telefones: <br>';
+        // foreach($phones as $phone)
+        // {
+        //     echo $phone->phone_number . '<br>';
+        // }
+
+        // buscar todos os produtos que um cliente comprou, mas só queremos os produtos que custam mais de 50
+        // $client2 = Client::find(1);
+        // $products = $client2
+        //             ->products()
+        //             ->where('price', '>', 50)
+        //             ->orderBy('product_name')
+        //             ->get();
+
+        // echo 'Cliente: ' . $client2->client_name . '<br>';
+        // echo 'Seus produtos com preço maior que 50:' . '<br>';
+        // echo '<hr>';
+        // foreach($products as $product)
+        // {
+        //     echo 'Nome: ' . $product->product_name . ' | Preço: ' . $product->price . '<br>';
+        // }
+
+        // vão aparecer produtos repetidos. Para evitar isso, podemos usar o método distinct()
+        // vamos ordenar os producots por ordem alfabética do nome
+        // echo '<br>'
+
+        $client3 = Client::find(1);
+        $products2 = $client3->products()
+                            ->where('price', '>', 50)
+                            ->distinct() // busca todos os produtos, sem que eles se repitam caso tenha tido várias compras do mesmo
+                            ->orderBy('product_name', 'desc')
+                            ->get();
+
+        echo 'Cliente: ' . $client3->client_name . '<br>';
+        echo 'Seus produtos com preço maior que 50:' . '<br>';
+        echo '<hr>';
+        foreach($products2 as $product)
         {
-            echo $phone->phone_number . '<br>';
+            echo 'Nome: ' . $product->product_name . ' | Preço: ' . $product->price . '<br>';
         }
+
     }
 }
