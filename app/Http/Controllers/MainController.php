@@ -13,7 +13,7 @@ class MainController extends Controller
         echo 'Eloquent Relationship';
     }
 
-    public function oneToOne()
+    public function OneToOne()
     {
         $phone1 = Client::find(12)->phone;
 
@@ -76,7 +76,7 @@ class MainController extends Controller
         echo "⏱️ Eager loading levou: " . number_format($timeEager, 6) . " segundos<br><hr>";
     }
 
-    public function oneToMany()
+    public function OneToMany()
     {
         // busca o id e o nome do cliente e todos os telefones dele
         // $client1 = Client::find(10);
@@ -109,7 +109,7 @@ class MainController extends Controller
         }
     }
 
-    public function belongsTo()
+    public function BelongTo()
     {
         // $phone1 = Phone::find(10);
         // $client1 = $phone1->client;
@@ -127,7 +127,7 @@ class MainController extends Controller
         }
     }
 
-    public function manyToMany()
+    public function ManyToMany()
     {
         // buscar um cliente e todos os produtos que ele comprou
         $client1 = Client::find(1);
@@ -152,6 +152,20 @@ class MainController extends Controller
         foreach($clients as $client)
         {
             echo $client->client_name . '<br>';
+        }
+    }
+
+    public function RunningQueries()
+    {
+        // vamos buscar um cliente e seus telefones, mas só queremos os telefones que começam com o numero 8
+        $client1 = Client::find(1);
+        $phones = $client1->phones()->where('phone_number', 'like', '8%')->get();
+
+        echo 'Cliente: ' , $client1->client_name . '<br>';
+        echo 'Telefones: <br>';
+        foreach($phones as $phone)
+        {
+            echo $phone->phone_number . '<br>';
         }
     }
 }
