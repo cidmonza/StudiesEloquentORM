@@ -155,6 +155,7 @@ class MainController extends Controller
         }
     }
 
+    // Query builder
     public function RunningQueries()
     {
         // vamos buscar um cliente e seus telefones, mas só queremos os telefones que começam com o numero 8
@@ -203,5 +204,32 @@ class MainController extends Controller
             echo 'Nome: ' . $product->product_name . ' | Preço: ' . $product->price . '<br>';
         }
 
+    }
+
+    // Mesmos resultados sem relações
+    public function SameResults()
+    {
+        // vamos buscar os mesmos resultados, mas sem usar as relações
+        // vamos buscar um cliente e os seus telefones
+        // $client1 = Client::find(1);
+        // $phones = Phone::where('client_id', $client1->id)->get();
+        // echo 'Cliente: ' . $client1->client_name . '<br>';
+        // echo 'Telefones: <br>';
+        // foreach($phones as $phone)
+        // {
+        //     echo $phone->phone_number . '<br>';
+        // }
+
+        $client2 = Client::find(1);
+        $products = Product::join('orders', 'products.id', '=', 'orders.product_id')
+                            ->where('orders.client_id', $client2->id)
+                            ->get();
+        echo '<br>';
+        echo 'Cliente: ' . $client2->client_name . '<br>';
+        echo 'Produtos: <br>';
+        foreach($products as $product)
+        {
+            echo $product->product_name . ' | ' . $product->price . '<br>';
+        }
     }
 }
