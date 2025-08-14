@@ -232,4 +232,10 @@ class MainController extends Controller
             echo $product->product_name . ' | ' . $product->price . '<br>';
         }
     }
+
+    public function Collections()
+    {
+        $clients = Client::take(5)->get();
+        $this->showData($clients);
+    }
 }
