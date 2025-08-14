@@ -238,4 +238,19 @@ class MainController extends Controller
         $clients = Client::take(5)->get();
         $this->showData($clients);
     }
+
+    private function showData($data)
+    {
+        echo '<pre>',
+        print_r($data);
+    }
+
+    private function arrayOfObject($data)
+    {
+        $tmp = [];
+        foreach($data as $key => $value){
+            $tmp[] = (object) $value;
+        }
+        return $tmp;
+    }
 }
