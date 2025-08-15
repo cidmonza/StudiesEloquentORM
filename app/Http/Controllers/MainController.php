@@ -235,8 +235,56 @@ class MainController extends Controller
 
     public function Collections()
     {
+        // $clients = Client::take(5)->get();
+        // //$this->showData($clients);
+
+        // foreach($clients as $client)
+        // {
+        //     echo $client->client_name . '<br>';
+        // }
+
+        // APPEND
         $clients = Client::take(5)->get();
-        $this->showData($clients);
+        $clients->each->append(['client_name_uppercase', 'email_domain']);
+
+        foreach($clients as $client)
+        {
+            $client->client_name_uppercase = strtoupper($client->client_name);
+            $client->email_domain = explode('@', $client->email)[1];
+        }
+
+        foreach($clients as $client)
+        {
+            echo $client->client_name . ' | ' . $client->client_name_uppercase . ' | ' . $client->email_domain . '<br>';
+        }
+
+        // CONTAINS
+        $clients = Client::take(5)->get();
+            // bool result
+        $results = $clients->contains('client_name', 'Mirela Alice Lopes');
+        var_dump($results);
+
+        //DIFF
+        $clients1 = Client::take(5)->get();
+        $clients2 = Client::take(3)->get();
+
+        $results = $clients1->diff($clients2)->toArray();
+        echo '<br>';
+        $this->showData($results);
+
+        //INTERSECT
+        $clients1 = Client::take(5)->get();
+            // mescla os clients, não repetindo os que há em ambos arrays
+        $clients2 = Client::where('id', '>', 3)->take(5)->get();
+
+        $results = $clients1->intersect($clients2)->toArray();
+        $this->showData($results);
+
+        // MAKEHIDDEN
+        echo '<hr>';
+        $clients = Client::take(5)->get();
+        $clients->makeHidden(['id', 'created_at', 'deleted_at', 'updated_at']);
+        $this->showData($clients->toArray());
     }
 
     private function showData($data)
